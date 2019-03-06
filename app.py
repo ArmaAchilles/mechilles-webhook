@@ -19,7 +19,6 @@ with open("config.yaml") as file:
 # Fetch the env variables from Heroku os.environ for security reasons...
 DISCORD_WEBHOOK = os.environ["DISCORD_WEBHOOK"]
 DISCORD_WEBHOOK_KARMANOR = os.environ["DISCORD_WEBHOOK_KARMANOR"]
-DISCORD_WEBHOOK_AZURE = os.environ["DISCORD_WEBHOOK_AZURE"]
 
 DISCORD_JSON = config["discord-json"]
 COLORS = config["colors"]
@@ -207,7 +206,7 @@ def azure():
         }]
     }
 
-    resp = requests.request("POST", DISCORD_WEBHOOK_AZURE, json=payload, headers={
+    resp = requests.request("POST", DISCORD_WEBHOOK, json=payload, headers={
                             "Content-Type": "application/json"})
 
     return resp.text, resp.status_code, resp.headers.items()
