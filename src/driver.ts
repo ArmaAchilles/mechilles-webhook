@@ -2,13 +2,7 @@ export default interface IDriver {
     driverName: string;
     driverImageUrl: string;
 
-    embedColor: string;
-    embedTitle: IEmbedTitle;
-    embedBuildUrl: string;
-    embedBuildComplete: Date;
-
-    embedCommitSha: string;
-    embedCommitName: string;
+    embed: IEmbed;
 
     commitAuthor: ICommitAuthor;
 }
@@ -24,6 +18,16 @@ export interface IEmbedTitle {
     branchName: string;
     buildNumber: number;
     buildStatus: EBuildStatus;
+}
+
+export interface IEmbed {
+    color: number;
+    title: IEmbedTitle;
+    buildUrl: string;
+    buildCompleteTimestamp: Date;
+
+    commitSha: string;
+    commitName: string;
 }
 
 // Contains the embed color as value
