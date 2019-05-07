@@ -26,6 +26,7 @@ export interface IEmbedTitle {
     buildStatus: EBuildStatus;
 }
 
+// Contains the embed color as value
 export enum EBuildStatus {
     pending = 15588927,
     passed = 3779158,
