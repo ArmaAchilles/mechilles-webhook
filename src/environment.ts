@@ -38,11 +38,6 @@ export default class Environment {
     }
 }
 
-export interface IColors {
-    error: string;
-    ok: string;
-}
-
 export type getValues =
     'webhook_id' |
     'webhook_secret' |
