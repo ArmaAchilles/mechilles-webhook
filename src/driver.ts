@@ -5,7 +5,7 @@ export default interface IDriver {
     embedColor: string;
     embedTitle: IEmbedTitle;
     embedBuildUrl: string;
-    embedTimestamp: Date;
+    embedBuildComplete: Date;
 
     embedCommitSha: string;
     embedCommitName: string;
