@@ -27,11 +27,11 @@ export interface IEmbedTitle {
 }
 
 export enum EBuildStatus {
-    pending,
-    passed,
-    fixed,
-    broken,
-    failed,
-    stillFailing,
-    canceled,
+    pending = 15588927,
+    passed = 3779158,
+    fixed = 3779158,
+    broken = 14370117,
+    failed = 14370117,
+    stillFailing = 14370117,
+    canceled = 10329501,
 }
