@@ -1,5 +1,5 @@
 # Mechilles Webhook
-> Discord webhook that delivers messages about Azure Pipelines builds.
+> Discord webhook that delivers messages about any CI system's builds with suppor for custom drivers.
 
 ## Requirements
 - Node >= 10.15.3
