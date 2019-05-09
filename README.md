@@ -1,5 +1,5 @@
 # Mechilles Webhook
-> Discord webhook that delivers messages about any CI system's builds with support for custom drivers.
+> Discord webhook that delivers messages about Travis CI or Azure Pipelines builds with support for other drivers.
 
 ## Requirements
 - Node >= 10.15.3
