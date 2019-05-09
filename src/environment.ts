@@ -1,17 +1,19 @@
 import * as dotenv from 'dotenv';
-import IDriver from './driver';
+import IDriver, { Driver } from './driver';
+import IPipelines from './driverInterfaces/pipelines';
+import ITravis from './driverInterfaces/travis';
 
 dotenv.config();
 
 export default class Environment {
-    public static get driver(): IDriver {
+    public static driver<T extends ITravis | IPipelines | IDriver>(json: any): T {
         if (! process.env.DRIVER) {
             throw new Error('DRIVER is not defined in your .env file.');
         }
 
-        const driver: IDriver = require(`./drivers/${process.env.DRIVER}`).default;
+        const driver: any = require(`./drivers/${process.env.DRIVER}`).default;
 
-        return driver;
+        return new driver(json);
     }
 
     public static get<T extends string | number | boolean | undefined>(
@@ -41,4 +43,5 @@ export default class Environment {
 export type getValues =
     'webhook_id' |
     'webhook_secret' |
-    'driver';
+    'driver' |
+    'port';
