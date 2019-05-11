@@ -36,6 +36,6 @@ export default class Travis extends Driver implements IDriver {
             };
 
             this.emit('ready', this);
-        });
+        }).catch(error => console.error(`Failed to get commit details.\n${error}`));
     }
 }

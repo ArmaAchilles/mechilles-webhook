@@ -10,12 +10,14 @@ dotenv.config();
 export default class Environment {
     public static driver<T extends ITravis | IPipelines | IDriver>(request: Request): T {
         const json = request.body;
-        let envDriver = 'travis';
+        let envDriver = '';
 
         if (request.header('Travis-Repo-Slug')) {
             envDriver = 'travis';
         } else if (_.has(json, 'subscriptionId')) {
             envDriver = 'pipelines';
+        } else {
+            throw new Error('Failed to detect the driver to use.');
         }
 
         const driver: any = require(`./drivers/${envDriver}`).default;
