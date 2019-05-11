@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.post('/', (request, response) => {
     const discord = new Discord();
-    const configDriver = Environment.driver<IDriver>(request.body);
+    const configDriver = Environment.driver<IDriver>(request);
 
     configDriver.on('ready', (driver: IDriver) => {
         const embed = discord.generateEmbed(driver);

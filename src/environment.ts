@@ -1,17 +1,24 @@
 import * as dotenv from 'dotenv';
-import IDriver, { Driver } from './driver';
+import { Request } from 'express';
+import * as _ from 'lodash';
+import IDriver from './driver';
 import IPipelines from './driverInterfaces/pipelines';
 import ITravis from './driverInterfaces/travis';
 
 dotenv.config();
 
 export default class Environment {
-    public static driver<T extends ITravis | IPipelines | IDriver>(json: any): T {
-        if (! process.env.DRIVER) {
-            throw new Error('DRIVER is not defined in your .env file.');
+    public static driver<T extends ITravis | IPipelines | IDriver>(request: Request): T {
+        const json = request.body;
+        let envDriver = 'travis';
+
+        if (request.header('Travis-Repo-Slug')) {
+            envDriver = 'travis';
+        } else if (_.has(json, 'subscriptionId')) {
+            envDriver = 'pipelines';
         }
 
-        const driver: any = require(`./drivers/${process.env.DRIVER}`).default;
+        const driver: any = require(`./drivers/${envDriver}`).default;
 
         return new driver(json);
     }
