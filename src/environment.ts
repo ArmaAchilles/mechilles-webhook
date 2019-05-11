@@ -22,6 +22,8 @@ export default class Environment {
 
         const driver: any = require(`./drivers/${envDriver}`).default;
 
+        console.log(`Mechilles: Loaded driver ${envDriver}.`);
+
         return new driver(json);
     }
 
