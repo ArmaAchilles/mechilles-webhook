@@ -12,9 +12,7 @@ export default class Travis extends Driver implements IDriver {
     constructor(json: ITravis) {
         super();
 
-        const buildUrlSplitted = json.build_url.split('/');
-
-        new GitHub(buildUrlSplitted[3], buildUrlSplitted[4]).getCommit(json.commit)
+        new GitHub(json.repository.owner_name, json.repository.name).getCommit(json.commit)
         .then(commit => {
             this.commitAuthor = {
                 profileImageUrl: commit.author.avatar_url,
@@ -33,7 +31,7 @@ export default class Travis extends Driver implements IDriver {
                     branchName: json.branch,
                     buildNumber: parseInt(json.number, 10),
                     buildStatus: EBuildStatus[json.state],
-                    repositoryName: buildUrlSplitted[4],
+                    repositoryName: json.repository.owner_name,
                 },
             };
 

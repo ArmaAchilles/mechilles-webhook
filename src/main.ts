@@ -8,6 +8,7 @@ import Message from './message';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/', (request, response) => {
     const discord = new Discord();

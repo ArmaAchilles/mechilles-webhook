@@ -1,20 +1,19 @@
 import * as dotenv from 'dotenv';
-import { Request } from 'express';
+import * as express from 'express';
 import * as _ from 'lodash';
 import IDriver from './driver';
-import IPipelines from './driverInterfaces/pipelines';
-import ITravis from './driverInterfaces/travis';
 
 dotenv.config();
 
 export default class Environment {
-    public static driver<T extends ITravis | IPipelines | IDriver>(request: Request): T {
-        const json = request.body;
+    public static driver<T extends IDriver>(request: express.Request): T {
         let envDriver = '';
+        let data = request.body;
 
         if (request.header('Travis-Repo-Slug')) {
             envDriver = 'travis';
-        } else if (_.has(json, 'subscriptionId')) {
+            data = JSON.parse(data.payload);
+        } else if (_.has(request.body, 'subscriptionId')) {
             envDriver = 'pipelines';
         } else {
             throw new Error('Failed to detect the driver to use.');
@@ -24,7 +23,7 @@ export default class Environment {
 
         console.log(`Mechilles: Loaded driver ${envDriver}.`);
 
-        return new driver(json);
+        return new driver(data);
     }
 
     public static get<T extends string | number | boolean | undefined>(

@@ -34,5 +34,5 @@ export default interface ITravis {
     pull_request_number?: number;
     pull_request_title?: string;
     tag?: string[];
-    repository?: IRepository;
+    repository: IRepository;
 }
