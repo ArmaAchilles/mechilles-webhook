@@ -36,7 +36,7 @@ export interface IEmbedTitle {
 }
 
 export interface IEmbed {
-    color: number;
+    color: EBuildColors;
     title: IEmbedTitle;
     buildUrl: string;
     buildCompleteTimestamp: Date;
@@ -46,14 +46,26 @@ export interface IEmbed {
     commitUrl: string;
 }
 
-// Contains the embed color as value
 export enum EBuildStatus {
-    pending = 15588927,
-    passed = 3779158,
+    broken,
+    canceled,
+    failed,
+    fixed,
+    passed,
+    pending,
+    stillFailing,
+    /** Azure Pipelines version (is equal to `passed`) */
     succeeded = passed,
-    fixed = 3779158,
-    broken = 14370116,
-    failed = 14370117,
-    stillFailing = 14370118,
+}
+
+export enum EBuildColors {
+    broken = 14370117,
     canceled = 10329501,
+    failed = 14370117,
+    fixed = 3779158,
+    passed = 3779158,
+    pending = 15588927,
+    stillFailing = 14370117,
+    /** Azure Pipelines version (is equal to `passed`) */
+    succeeded = passed,
 }

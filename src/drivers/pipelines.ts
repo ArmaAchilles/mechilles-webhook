@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import IDriver, { Driver, EBuildStatus, ICommitAuthor, IEmbed } from '../driver';
+import IDriver, { Driver, EBuildColors, EBuildStatus, ICommitAuthor, IEmbed } from '../driver';
 import IPipelines, { IPipelinesResource } from '../driverInterfaces/pipelines';
 import GitHub from '../github';
 
@@ -29,7 +29,7 @@ export default class Pipelines extends Driver implements IDriver {
             this.embed = {
                 buildCompleteTimestamp: json.resource.finishTime,
                 buildUrl: data._links.web.href,
-                color: EBuildStatus[json.resource.status],
+                color: EBuildColors[json.resource.status],
                 commitName: commit.commit.message,
                 commitSha: commit.sha,
                 commitUrl: commit.html_url,

@@ -1,4 +1,4 @@
-import IDriver, { Driver, EBuildStatus, ICommitAuthor, IEmbed } from '../driver';
+import IDriver, { Driver, EBuildColors, EBuildStatus, ICommitAuthor, IEmbed } from '../driver';
 import ITravis from '../driverInterfaces/travis';
 import GitHub from '../github';
 
@@ -23,7 +23,7 @@ export default class Travis extends Driver implements IDriver {
             this.embed = {
                 buildCompleteTimestamp: json.finished_at,
                 buildUrl: json.build_url,
-                color: EBuildStatus[json.state],
+                color: EBuildColors[json.state],
                 commitName: json.message,
                 commitSha: json.commit,
                 commitUrl: json.compare_url,
