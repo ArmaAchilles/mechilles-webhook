@@ -1,9 +1,9 @@
 import * as express from 'express';
 
 import Discord from './discord';
-import IDriver, { EBuildStatus } from './driver';
+import IDriver, { Driver } from './driver';
 import Environment from './environment';
-import Message from './message';
+import Messages from './messages';
 
 const app = express();
 
@@ -11,26 +11,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/', (request, response) => {
+    console.log('Mechilles: Got request.');
+
     const discord = new Discord();
     const configDriver = Environment.driver<IDriver>(request);
 
     configDriver.on('ready', (driver: IDriver) => {
         const embed = discord.generateEmbed(driver);
 
-        console.log('Mechilles: Got request.');
-
         if (driver.embed) {
             const status = driver.embed.title.buildStatus;
+            const repoBranch = `${driver.embed.title.repositoryName}/${driver.embed.title.branchName}`;
 
-            if (Message.isSuccessfulBuild(status) && Message.get().lastMessageWasSuccessful) {
-                response.status(200).send('OK');
-                console.log('Mechilles: Ignoring request as it is successful.');
+            const messages = Messages.get().find(element => element.repoBranch === repoBranch);
 
-                return;
-            }
+            if (messages) {
+                const message = messages.message;
 
-            if (Message.isFailedBuild(status)) {
-                Message.set('lastMessageWasSuccessful', false);
+                if (message) {
+                    if (message.wasSuccessful && Driver.isSuccessfulBuild(status)) {
+                        response.status(200).send('OK');
+                        console.log('Mechilles: Build status is successful, not showing message.');
+
+                        return;
+                    } else if (Driver.isFailedBuild(status)) {
+                        Messages.append(repoBranch, { wasSuccessful: false });
+                    } else if (! message.wasSuccessful && Driver.isSuccessfulBuild(status)) {
+                        Messages.append(repoBranch, { wasSuccessful: true });
+                    }
+                } else {
+                    Messages.append(repoBranch, { wasSuccessful: Driver.isSuccessfulBuild(status) });
+                }
+            } else {
+                Messages.append(repoBranch, { wasSuccessful: Driver.isSuccessfulBuild(status) });
             }
         }
 

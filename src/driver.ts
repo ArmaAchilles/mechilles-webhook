@@ -12,6 +12,16 @@ export default interface IDriver {
 }
 
 export class Driver extends events.EventEmitter implements IDriver {
+    public static isFailedBuild(build: EBuildStatus): boolean {
+        if (EBuildStatus.pending === build) { return false; }
+
+        return ! this.isSuccessfulBuild(build);
+    }
+
+    public static isSuccessfulBuild(build: EBuildStatus): boolean {
+        return (EBuildStatus.passed === build || EBuildStatus.fixed === build);
+    }
+
     public driverName = '';
     public driverImageUrl = '';
     public embed?: IEmbed | undefined;
