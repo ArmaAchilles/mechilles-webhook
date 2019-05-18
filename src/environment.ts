@@ -1,9 +1,10 @@
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as _ from 'lodash';
+import * as path from 'path';
 import IDriver from './driver';
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 export default class Environment {
     public static driver<T extends IDriver>(request: express.Request): T {
